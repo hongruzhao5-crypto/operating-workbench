@@ -21,7 +21,7 @@
       <section id="today" class="view page"><p class="eyebrow">TODAY / 协作节点</p><h1>今日工作</h1><div class="cards" id="todayCards"></div></section>
       <section id="workflow" class="view page"><p class="eyebrow">WORKFLOW SYSTEM / 经营流程</p><h1>工作流系统</h1><p class="intro">选择一张卡片进入独立操作页。一级页面只用于定位工作流，不直接执行业务动作。</p><div class="cards" id="flows"></div></section>
       <section id="flow-detail" class="view page"><button class="link" onclick="show('workflow')">← 返回工作流列表</button><p class="eyebrow" id="flowDetailTag"></p><h1 id="flowDetailTitle"></h1><p class="intro" id="flowDetailIntro"></p><div id="flowDetailBody"></div></section>
-      <section id="board" class="view page"><p class="eyebrow">OPERATING BOARD / 已核验快照</p><h1>经营看板</h1><div class="panel"><div class="metrics"><div class="metric">商品卡<strong>待确认</strong><small>不覆盖未确认的经营数字</small></div><div class="metric">切片<strong>待确认</strong><small>等待输入批次完成核验</small></div><div class="metric">整体<strong>待确认</strong><small>以人工确认后的数据为准</small></div></div></div></section>
+      <section id="board" class="view page"><p class="eyebrow">OPERATING BOARD / 已核验快照</p><h1>经营看板</h1><div class="panel"><div class="metrics"><div class="metric" id="productCardDashboard">商品卡<strong>等待更新</strong><small>完成商品卡核算后自动同步</small></div><div class="metric">切片<strong>待确认</strong><small>等待输入批次完成核验</small></div><div class="metric">整体<strong>待确认</strong><small>以人工确认后的数据为准</small></div></div></div></section>
       <section id="pending" class="view page"><p class="eyebrow">PENDING / 需要人工确认</p><h1>待处理</h1><div class="cards" id="pendingCards"></div></section>
       <section id="changes" class="view page"><p class="eyebrow">CHANGELOG</p><h1>修改记录</h1><div class="panel">首页已调整为商家经营后台布局，保留工作台指令与员工指令两个核心入口。</div></section>
       <section id="collaboration" class="view page"><p class="eyebrow">COLLABORATION / 事项中心</p><h1>我的协作</h1><div class="cards" id="taskCards"></div></section>
@@ -61,5 +61,28 @@
   async function startRechargeRefresh(){rechargeResult('正在启动只读余额预警…');try{const response=await fetch(`${rechargeBridge}/jobs`,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({type:'recharge_refresh'})});const job=await response.json();if(!response.ok)throw new Error(job.error||'无法创建运行单');pollRechargeJob(job.id)}catch(error){rechargeResult(`启动失败：${error.message}`)}}
   async function pollRechargeJob(id){try{const response=await fetch(`${rechargeBridge}/jobs/${id}`);const job=await response.json();if(!response.ok)throw new Error(job.error||'无法读取运行状态');const status={queued:'排队中',running:'正在刷新',verified:'已更新',failed:'未通过核验'}[job.status]||job.status;rechargeResult(`运行单：${id}\n状态：${status}${job.error?`\n原因：${job.error}`:''}${job.verification?.outputFile?`\n明细：${job.verification.outputFile}`:''}`);if(['queued','running'].includes(job.status))setTimeout(()=>pollRechargeJob(id),1600);else if(job.status==='verified')setTimeout(loadRechargeSummary,200)}catch(error){rechargeResult(`状态读取失败：${error.message}`)}}
   openFlow=function(index){const flow=flows[index];if(flow[0]!=='充值管理')return legacyOpenFlow(index);$('#flowDetailTag').textContent=`W-${String(index+1).padStart(2,'0')} / ${flow[1]}`;$('#flowDetailTitle').textContent=flow[0];$('#flowDetailIntro').textContent=flow[3];$('#flowDetailBody').innerHTML=rechargeSummary({});const handoff=handoffs['充值管理'];const record=document.createElement('p');record.className='eyebrow';record.textContent=`唯一对应交接：${handoff[0]}｜记录 ${handoff[1]}`;$('#flowDetailBody').prepend(record);show('flow-detail');loadRechargeSummary()}
+</script>
+<script>
+  const productCardDashboardBridge = 'http://127.0.0.1:4318';
+  async function loadProductCardDashboard(){
+    const card=document.querySelector('#productCardDashboard');
+    if(!card)return;
+    try{
+      const response=await fetch(`${productCardDashboardBridge}/dashboard/product-card`);
+      const payload=await response.json();
+      if(!response.ok||!payload.ok)throw new Error(payload.error||'尚未生成摘要');
+      const summary=payload.result.dashboard||{};
+      const month=summary.month_to_date||{},daily=summary.report_date_summary||{},focus=summary.focus||{};
+      card.textContent='商品卡';
+      const value=document.createElement('strong');value.textContent=`月净利 ¥${month.net_profit||'—'}`;
+      const detail=document.createElement('small');detail.textContent=`截至 ${summary.report_date||'—'}｜当日净利 ¥${daily.net_profit||'—'}｜重点：${focus.monthly_loss_store||'—'}`;
+      card.append(value,detail);
+    }catch(error){
+      card.innerHTML='商品卡<strong>等待更新</strong><small>完成商品卡核算后自动同步</small>';
+    }
+  }
+  const showWithProductCardDashboard=show;
+  show=function(id){showWithProductCardDashboard(id);if(id==='board')loadProductCardDashboard()};
+  loadProductCardDashboard();
 </script>
 </body></html>
