@@ -111,13 +111,14 @@
       boardCard('商品卡',data.product,`净利率 ${boardPercent(data.product.net_margin)}`),
       boardCard('切片',data.slice,`净利率 ${boardPercent(data.slice.net_margin)}`),
       boardCard('整体汇总',data.overall,`净利率 ${boardPercent(data.overall.net_margin)}`),
-      boardCard('更新状态',{status:'已发布快照',report_date:data.generated_at?.slice(0,10)||'—'},'', [['数据期间',data.overall.report_date||'—'],['更新时间',data.generated_at?new Date(data.generated_at).toLocaleString('zh-CN',{hour12:false}):'—'],['查看范围',data.scope||'整体经营观察']])
+      boardCard('充值管理',{status:'只读审计',report_date:data.recharge?.audit_timestamp?.slice(0,10)||'—'},'', [['纳入账户',`${data.recharge?.account_count||0} 户`],['建议充值',`${data.recharge?.recharge_recommended_count||0} 户`],['余额充足',`${data.recharge?.sufficient_count||0} 户`]])
     );
     analysis.replaceChildren();
     const title=document.createElement('h2');title.textContent='公开查看说明';
     const notice=document.createElement('div');notice.className='board-actions';notice.textContent=data.notice||'本页面仅用于整体经营观察。';
-    const summary=document.createElement('p');summary.className='board-detail-note';summary.textContent=`截至 ${data.overall.report_date||'—'}：商品卡净利润 ${boardMoney(data.product.net_profit)}，切片净利润 ${boardMoney(data.slice.net_profit)}，同日整体净利润 ${boardMoney(data.overall.net_profit)}。`;
-    analysis.append(title,summary,notice);
+    const summary=document.createElement('p');summary.className='board-detail-note';summary.textContent=`截至 ${data.overall.report_date||'—'}：商品卡净利润 ${boardMoney(data.product.net_profit)}，切片净利润 ${boardMoney(data.slice.net_profit)}，同日整体净利润 ${boardMoney(data.overall.net_profit)}。切片投流占有效金额 ${boardPercent(data.slice.spend_rate)}，跨系统成交差额率 ${boardPercent(data.slice.reconciliation_gap_rate)}；充值审计覆盖 ${data.recharge?.account_count||0} 户账户。`;
+    const updated=document.createElement('p');updated.className='board-detail-note';updated.textContent=`快照更新时间：${data.generated_at?new Date(data.generated_at).toLocaleString('zh-CN',{hour12:false}):'—'}。`;
+    analysis.append(title,summary,updated,notice);
   }
   async function loadOperatingBoard(){
     try{const response=await fetch('./public-board.json',{cache:'no-store'});if(!response.ok)throw new Error('未找到已发布看板快照');renderPublicOperatingBoard(await response.json())}

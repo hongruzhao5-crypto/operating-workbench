@@ -18,7 +18,9 @@
     "effective_amount": 319327.56,
     "net_profit": -25552.71,
     "net_margin": -0.08002037155828329,
-    "order_count": 8009
+    "order_count": 8009,
+    "spend_rate": 0.6312796177066584,
+    "reconciliation_gap_rate": 0.3040966558355852
   },
   "overall": {
     "report_date": "2026-07-21",
@@ -27,5 +29,13 @@
     "effective_amount": 1104400.26,
     "net_profit": 25343.78,
     "net_margin": 0.022948002565664007
+  },
+  "recharge": {
+    "audit_timestamp": "2026-07-22T09:21:04+08:00",
+    "account_count": 66,
+    "recharge_recommended_count": 1,
+    "sufficient_count": 27,
+    "recently_idle_count": 13,
+    "exception_count": 0
   }
 }
