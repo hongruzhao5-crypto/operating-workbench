@@ -93,7 +93,7 @@
     const lossMasters=(data.slice.masters||[]).filter(item=>item.net_profit<0).slice().sort((a,b)=>a.net_profit-b.net_profit);
     appendBoardTable(slice,'主要达人盈利排行榜（按分摊后净利降序）', ['主达人','有效金额','投流','佣金','有效订单','分摊后净利'],profitableMasters.slice(0,8).map(item=>[item.name,boardMoney(item.income),boardMoney(item.spend),boardMoney(item.commission),String(item.order_count),boardPnl(item.net_profit)]));
     appendBoardTable(slice,'主要达人亏损排行榜（亏损额由大到小）', ['主达人','有效金额','投流','佣金','有效订单','分摊后净利'],lossMasters.slice(0,8).map(item=>[item.name,boardMoney(item.income),boardMoney(item.spend),boardMoney(item.commission),String(item.order_count),boardPnl(item.net_profit)]));
-    const sliceRisk=document.createElement('div');sliceRisk.className='board-actions';sliceRisk.textContent=`成交差额待对账：${(data.slice.high_reconciliation_gap||[]).map(item=>`${item.name}（${boardPercent(item.reconciliation_gap_rate)}）`).join('、')||'暂无'}。该指标是千川成交与热度云有效订单的跨系统差额，不等同于真实退货率；真实退货以热度云订单状态为准。`;slice.append(sliceRisk);
+    const sliceRisk=document.createElement('div');sliceRisk.className='board-actions';sliceRisk.textContent=`高退货风险：${(data.slice.high_return||[]).map(item=>`${item.name}（${boardPercent(item.return_rate)}）`).join('、')||'暂无'}。优先复核其计划归属、订单映射和后续投放。`;slice.append(sliceRisk);
     const rechargeDetail=boardDetail('充值管理｜预警、常规与待复核账户',`审计：${recharge.audit_timestamp||'—'}；余额刷新：${recharge.balance_refresh_timestamp||'—'}。${recharge.analysis.warning}。${recharge.analysis.regular}。${recharge.analysis.review}`);
     const rechargeRows=items=>items.map(item=>[item.name,item.balance===null?'—':boardMoney(item.balance),item.daily_spend===null?'—':boardMoney(item.daily_spend),item.coverage_days===null?'—':`${item.coverage_days.toFixed(2)} 天`]);
     appendBoardTable(rechargeDetail,`建议充值（${recharge.summary.recharge_recommended_count||0} 户）`,['账户','当前余额','近三日均耗','余额覆盖'],rechargeRows(recharge.recommended||[]));
@@ -101,7 +101,7 @@
     appendBoardTable(rechargeDetail,`近期无消耗待复核（${recharge.summary.recently_idle_count||0} 户，展示前 ${Math.min(5,(recharge.review||[]).length)} 户）`,['账户','当前余额','近三日均耗','余额覆盖'],rechargeRows(recharge.review||[]));
     details.append(product,slice,rechargeDetail);
     const actions=document.createElement('div');actions.className='board-actions';
-    actions.textContent=`优先事项：商品卡先复核 ${productFocus.monthly_loss_store||'亏损门店'} 的退款率、投流效率与履约成本；切片先核对成交差额和热度云真实订单状态；充值管理优先处理 ${recharge.recommended?.map(item=>item.name).join('、')||'当前无建议充值账户'}。`;
+    actions.textContent=`优先事项：商品卡先复核 ${productFocus.monthly_loss_store||'亏损门店'} 的退款率、投流效率与履约成本；切片先处理高退货风险账号；充值管理优先处理 ${recharge.recommended?.map(item=>item.name).join('、')||'当前无建议充值账户'}。`;
     analysis.append(title,details,actions);
   }
   async function loadOperatingBoard(){
