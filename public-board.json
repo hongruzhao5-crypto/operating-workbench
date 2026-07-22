@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-07-22T06:46:10.828Z",
+  "scope": "公开查看版｜整体经营观察",
+  "notice": "当前账户—计划—素材—达人—运营人关系仍在治理中。此页面不展示个人、主达人、账户或停投判断；未确认关系不得用于责任或盈亏结论。",
+  "product": {
+    "report_date": "2026-07-21",
+    "status": "已核算",
+    "deal_amount": 1145227.02,
+    "effective_amount": 785072.7,
+    "net_profit": 50896.49,
+    "net_margin": 0.06483028896559516,
+    "account_count": 14
+  },
+  "slice": {
+    "report_date": "2026-07-21",
+    "status": "整体观察",
+    "deal_amount": 458867.69,
+    "effective_amount": 319327.56,
+    "net_profit": -25552.71,
+    "net_margin": -0.08002037155828329,
+    "order_count": 8009
+  },
+  "overall": {
+    "report_date": "2026-07-21",
+    "status": "同日汇总",
+    "deal_amount": 1604094.71,
+    "effective_amount": 1104400.26,
+    "net_profit": 25343.78,
+    "net_margin": 0.022948002565664007
+  }
+}

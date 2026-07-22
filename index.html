@@ -22,7 +22,7 @@
       <section id="today" class="view page"><p class="eyebrow">TODAY / 协作节点</p><h1>今日工作</h1><div class="cards" id="todayCards"></div></section>
       <section id="workflow" class="view page"><p class="eyebrow">WORKFLOW SYSTEM / 经营流程</p><h1>工作流系统</h1><p class="intro">选择一张卡片进入独立操作页。一级页面只用于定位工作流，不直接执行业务动作。</p><div class="cards" id="flows"></div></section>
       <section id="flow-detail" class="view page"><button class="link" onclick="show('workflow')">← 返回工作流列表</button><p class="eyebrow" id="flowDetailTag"></p><h1 id="flowDetailTitle"></h1><p class="intro" id="flowDetailIntro"></p><div id="flowDetailBody"></div></section>
-      <section id="board" class="view page"><p class="eyebrow">OPERATING BOARD / 已核验快照</p><h1>经营看板</h1><p class="intro">商品卡与切片分别展示最新核算；整体仅汇总两条线共同截至同一日期的数据。充值管理展示最新余额预警审计。</p><div class="board-core" id="operatingBoardCards"><div class="panel">商品卡加载中…</div><div class="panel">切片加载中…</div><div class="panel">整体加载中…</div><div class="panel">充值管理加载中…</div></div><section class="panel board-analysis" id="operatingBoardAnalysis"><h2>经营分析</h2><p class="intro">正在读取已核算数据。</p></section></section>
+      <section id="board" class="view page"><p class="eyebrow">OPERATING BOARD / 已核验快照</p><h1>经营看板</h1><p class="intro">公开查看版只展示已核验的整体经营结果；商品卡、切片与整体汇总仅使用共同截至同一日期的数据。</p><div class="board-core" id="operatingBoardCards"><div class="panel">经营看板加载中…</div></div><section class="panel board-analysis" id="operatingBoardAnalysis"><h2>经营说明</h2><p class="intro">正在读取已发布快照。</p></section></section>
       <section id="rules" class="view page"><p class="eyebrow">RULEBOOK / 已固化经营规则</p><h1>核算与归因规则</h1><p class="intro">本页是经营工作台当前生效口径。关系未确认时不得自动归因或进入个人盈亏。</p><div class="board-detail-stack"><section class="panel"><h2>一、共同控制规则</h2><div class="board-actions">所有外部数据均只读；订单、投流、充值、飞书原始记录不得由工作台直接修改。每次运行保存订单批次、数据期间、来源回执与结果版本。失败后只能手动“继续执行”，已核验订单不重复下载。</div></section><section class="panel"><h2>二、订单运营下载</h2><div class="board-actions">日系、泰系按付款时间分别导出；两队页面订单总量与文件行数一致、文件非空后才放行。全月批次是商品卡与切片的共享订单来源。订单状态、订单日期、原始文件路径必须保留。</div></section><section class="panel"><h2>三、商品卡核算</h2><div class="board-actions">沿用已验证的旧版确定性流程。成交、退款、投流、固定成本均按旧版口径计算；完成后推送飞书群消息，并更新经营看板商品卡卡片。任何新规则先在预览中核验，再替换正式口径。</div></section><section class="panel"><h2>四、切片核算</h2><div class="board-actions">有效订单状态仅为：备货中、已发货、已收货、已结算；日系、泰系以子订单号去重。成本包含产品成本 19%、平台及运费险 3%、物流每件 ¥2、税费 3%、达人佣金、团队人工、报销及服务商返点 1.5%。樱肌本铺按千川成交 80%确认收入，优蜜琳国际进口仓按 70%确认收入。</div></section><section class="panel"><h2>五、归因关系（当前重点整改）</h2><div class="board-actions">归因主键必须是：千川账户 ID、计划 ID、素材 ID；名称仅作展示。关系表必须同时维护账户名、计划名、素材名、达人原始昵称、主达人、运营人、产品、店铺、生效/失效日期、来源、复核人和确认状态。禁止根据名称模糊匹配或猜测；别名必须登记依据后生效；未匹配/冲突记录进入待确认清单，不得自动计入个人盈亏。</div></section><section class="panel"><h2>六、经营看板与飞书</h2><div class="board-actions">商品卡、切片与整体汇总仅使用共同截止日数据；切片核算成功后自动刷新经营看板。飞书输出为群消息，不替代原始数据和正式结果文件。个人及主达人盈亏属于成本分摊经营归因，必须在归因关系确认后用于管理判断。</div></section><section class="panel"><h2>七、充值管理</h2><div class="board-actions">仅读取千川 API：近 91 天有消耗账户、近 3 个完整自然日平均消耗、当前余额和覆盖天数。输出建议充值、常规余额充足、近期无消耗待复核；不得自动充值、转账或改预算。</div></section><section class="panel"><h2>八、当前限制</h2><div class="board-actions">切片的账户—计划—素材—达人关系存在历史错误，刘秀厅、果哥等相关个人归因暂不作为停投或责任判断依据。关系清理完成、双人复核并重算后，才恢复正式个人盈亏使用。</div></section></div></section>
       <section id="pending" class="view page"><p class="eyebrow">PENDING / 需要人工确认</p><h1>待处理</h1><div class="cards" id="pendingCards"></div></section>
       <section id="changes" class="view page"><p class="eyebrow">CHANGELOG</p><h1>修改记录</h1><div class="panel">首页已调整为商家经营后台布局，保留工作台指令与员工指令两个核心入口。</div></section>
@@ -105,9 +105,23 @@
     actions.textContent=`优先事项：商品卡先复核 ${productFocus.monthly_loss_store||'亏损门店'} 的退款率、投流效率与履约成本；切片先处理高退货风险账号；充值管理优先处理 ${recharge.recommended?.map(item=>item.name).join('、')||'当前无建议充值账户'}。`;
     analysis.append(title,details,actions);
   }
+  function renderPublicOperatingBoard(data){
+    const cards=document.querySelector('#operatingBoardCards'),analysis=document.querySelector('#operatingBoardAnalysis');
+    cards.replaceChildren(
+      boardCard('商品卡',data.product,`净利率 ${boardPercent(data.product.net_margin)}`),
+      boardCard('切片',data.slice,`净利率 ${boardPercent(data.slice.net_margin)}`),
+      boardCard('整体汇总',data.overall,`净利率 ${boardPercent(data.overall.net_margin)}`),
+      boardCard('更新状态',{status:'已发布快照',report_date:data.generated_at?.slice(0,10)||'—'},'', [['数据期间',data.overall.report_date||'—'],['更新时间',data.generated_at?new Date(data.generated_at).toLocaleString('zh-CN',{hour12:false}):'—'],['查看范围',data.scope||'整体经营观察']])
+    );
+    analysis.replaceChildren();
+    const title=document.createElement('h2');title.textContent='公开查看说明';
+    const notice=document.createElement('div');notice.className='board-actions';notice.textContent=data.notice||'本页面仅用于整体经营观察。';
+    const summary=document.createElement('p');summary.className='board-detail-note';summary.textContent=`截至 ${data.overall.report_date||'—'}：商品卡净利润 ${boardMoney(data.product.net_profit)}，切片净利润 ${boardMoney(data.slice.net_profit)}，同日整体净利润 ${boardMoney(data.overall.net_profit)}。`;
+    analysis.append(title,summary,notice);
+  }
   async function loadOperatingBoard(){
-    try{const [operatingResponse,rechargeResponse]=await Promise.all([fetch(`${operatingBoardBridge}/dashboard/operating`),fetch(`${operatingBoardBridge}/dashboard/recharge`)]);const [payload,rechargePayload]=await Promise.all([operatingResponse.json(),rechargeResponse.json()]);if(!operatingResponse.ok||!payload.ok)throw new Error(payload.error||'尚未生成经营看板数据');if(!rechargeResponse.ok||!rechargePayload.ok)throw new Error(rechargePayload.error||'尚未生成充值审计数据');renderOperatingBoard(payload.result,rechargePayload.result)}
-    catch(error){const cards=document.querySelector('#operatingBoardCards'),analysis=document.querySelector('#operatingBoardAnalysis');cards.textContent='暂未读取到完整的商品卡与切片核算结果。';analysis.innerHTML='<h2>经营分析</h2>';const note=document.createElement('p');note.className='intro';note.textContent=`暂无法生成同日整体汇总：${error.message}`;analysis.append(note)}
+    try{const response=await fetch('./public-board.json',{cache:'no-store'});if(!response.ok)throw new Error('未找到已发布看板快照');renderPublicOperatingBoard(await response.json())}
+    catch(error){const cards=document.querySelector('#operatingBoardCards'),analysis=document.querySelector('#operatingBoardAnalysis');cards.textContent='暂未发布经营看板快照。';analysis.innerHTML='<h2>经营说明</h2>';const note=document.createElement('p');note.className='intro';note.textContent=error.message;analysis.append(note)}
   }
   const showWithOperatingBoard=show;
   show=function(id){showWithOperatingBoard(id);if(id==='board')loadOperatingBoard()};
