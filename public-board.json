@@ -1,7 +1,7 @@
 {
   "generated_at": "2026-07-22T06:46:10.828Z",
   "scope": "公开查看版｜整体经营观察",
-  "notice": "当前账户—计划—素材—达人—运营人关系仍在治理中。此页面不展示个人、主达人、账户或停投判断；未确认关系不得用于责任或盈亏结论。",
+  "notice": "完整快照已公开展示。当前账户—计划—素材—达人—运营人关系仍在治理中：其中未确认的个人、主达人和运营人归因仅供核对，不得用于停投、责任或正式个人盈亏结论。",
   "product": {
     "report_date": "2026-07-21",
     "status": "已核算",
@@ -9,7 +9,17 @@
     "effective_amount": 785072.7,
     "net_profit": 50896.49,
     "net_margin": 0.06483028896559516,
-    "account_count": 14
+    "spend_rate": 0.5649065366812527,
+    "account_count": 14,
+    "best_owner": {"name":"刘秀厅","net_profit":28881.31},
+    "weakest_owner": {"name":"李树花","net_profit":2429.67},
+    "operators": [
+      {"name":"刘秀厅","account_count":2,"deal_amount":382856.73,"effective_amount":264714.41,"spend":137819.1,"net_profit":28881.31},
+      {"name":"游伟鹏","account_count":3,"deal_amount":131541.9,"effective_amount":88932.22,"spend":45130.99,"net_profit":10872.9},
+      {"name":"苑佳乐","account_count":4,"deal_amount":98731.1,"effective_amount":68064.51,"spend":34150.12,"net_profit":8712.61},
+      {"name":"李树花","account_count":5,"deal_amount":532097.29,"effective_amount":363361.57,"spend":226392.49,"net_profit":2429.67}
+    ],
+    "focus": {"monthly_loss_store":"汇妆进口商行","monthly_loss_operator":"李树花","monthly_loss_net_profit":"-3669.22","daily_decline_store":"主账户-泰丽进口贸易","daily_decline_operator":"苑佳乐","daily_decline_net_profit_change":"-148.28"}
   },
   "slice": {
     "report_date": "2026-07-21",
@@ -20,7 +30,35 @@
     "net_margin": -0.08002037155828329,
     "order_count": 8009,
     "spend_rate": 0.6312796177066584,
-    "reconciliation_gap_rate": 0.3040966558355852
+    "reconciliation_gap_rate": 0.3040966558355852,
+    "top_talent":{"name":"扑克脸","income":104781.8,"net_profit":15000.432873773876},
+    "operators":[
+      {"name":"苑佳乐","income":240002.81,"spend":119170.46,"commission":19193.1,"order_count":5933,"net_profit":14689.505094373308},
+      {"name":"未匹配","income":0,"spend":1560.58,"commission":0,"order_count":0,"net_profit":-1560.58},
+      {"name":"刘秀厅","income":60406.11,"spend":32713.91,"commission":8414.17,"order_count":1555,"net_profit":-2606.279834710793},
+      {"name":"李树花","income":18918.64,"spend":47939.91,"commission":0,"order_count":521,"net_profit":-35875.23525966253}
+    ],
+    "masters":[
+      {"name":"扑克脸","income":104781.8,"spend":40406.13,"commission":11414.22,"order_count":3123,"net_profit":15000.432873773876},
+      {"name":"蜜桃","income":81893.03,"spend":38148.26,"commission":7686.87,"order_count":1291,"net_profit":6389.172087819159},
+      {"name":"扑克脸切片","income":19119.04,"spend":9474.97,"commission":1911.9,"order_count":576,"net_profit":805.6025533918846},
+      {"name":"果哥","income":37675.47,"spend":23406.75,"commission":0,"order_count":1114,"net_profit":619.4110369108148},
+      {"name":"罗凤魁","income":39.9,"spend":0,"commission":0,"order_count":1,"net_profit":25.44477415604215},
+      {"name":"天铭","income":39.9,"spend":0,"commission":0,"order_count":1,"net_profit":25.44477415604215},
+      {"name":"瑶瑶妈","income":0,"spend":0,"commission":0,"order_count":0,"net_profit":0},
+      {"name":"小微微","income":1805.7,"spend":1601.38,"commission":0,"order_count":55,"net_profit":-449.8604838705436},
+      {"name":"君姐","income":31041.22,"spend":14206.95,"commission":6208.24,"order_count":699,"net_profit":-619.7806659644411},
+      {"name":"未匹配达人","income":0,"spend":1560.58,"commission":0,"order_count":0,"net_profit":-1560.58},
+      {"name":"灵奇妈妈","income":6913.6,"spend":6215.49,"commission":0,"order_count":170,"net_profit":-1806.59299235055},
+      {"name":"秀秀夫妇","income":0,"spend":3706.46,"commission":0,"order_count":0,"net_profit":-3706.46},
+      {"name":"自营视频","income":21452.48,"spend":21501.19,"commission":386.04,"order_count":582,"net_profit":-8206.690935162627},
+      {"name":"微微一家","income":14565.42,"spend":41156.7,"commission":0,"order_count":397,"net_profit":-31868.13302285966}
+    ],
+    "high_reconciliation_gap":[
+      {"name":"香煎生椰包","reconciliation_gap_rate":1,"income":0},
+      {"name":"大山里的两口子","reconciliation_gap_rate":1,"income":0},
+      {"name":"萝卜争取不踩雷","reconciliation_gap_rate":1,"income":0}
+    ]
   },
   "overall": {
     "report_date": "2026-07-21",
@@ -36,6 +74,25 @@
     "recharge_recommended_count": 1,
     "sufficient_count": 27,
     "recently_idle_count": 13,
-    "exception_count": 0
+    "exception_count": 0,
+    "recommended":[{"name":"主账户-浩美贸易商行","balance":821.58,"daily_spend":1269.91,"coverage_days":0.65}],
+    "sufficient":[
+      {"name":"切片-苑佳乐-蜜桃-樱肌本铺","balance":2524.96,"daily_spend":1609.37,"coverage_days":1.57},
+      {"name":"主账户--宝得娜个人护理旗舰店","balance":9416.77,"daily_spend":4140.1,"coverage_days":2.28},
+      {"name":"切片-苑佳乐-果哥-宝得娜个人护理旗舰店","balance":1065.2,"daily_spend":336.8,"coverage_days":3.16}
+    ],
+    "review":[
+      {"name":"切片-苑佳乐-罗凤魁-泰丽进口贸易","balance":0.12,"daily_spend":0,"coverage_days":null},
+      {"name":"停用-主账户-海伦女神美容护肤店","balance":0,"daily_spend":0,"coverage_days":null},
+      {"name":"切片-苑佳乐-香港君姐-优蜜琳国际进口仓","balance":0,"daily_spend":0,"coverage_days":null},
+      {"name":"弃用刘秀厅-切片-花本姿-李多多","balance":0,"daily_spend":0,"coverage_days":null},
+      {"name":"主账户-帕卡玛泰宜本草企业店","balance":337.09,"daily_spend":0,"coverage_days":null}
+    ],
+    "analysis":{"warning":"当前有 1 户账户建议充值。","regular":"余额充足账户 27 户。","review":"近期无消耗待复核 13 户，数据异常 0 项。"}
+  },
+  "analysis": {
+    "product":"商品卡覆盖 14 个账户，投流占有效金额 56.49%，净利率 6.48%。",
+    "slice":"切片已确认 8009 个有效订单，投流占有效金额 63.13%，跨系统成交差额率 30.41%，净利率 -8.00%。",
+    "overall":"整体汇总仅将两条线共同截至 2026-07-21 的核算结果相加。"
   }
 }
