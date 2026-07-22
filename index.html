@@ -112,4 +112,11 @@
   show=function(id){showWithOperatingBoard(id);if(id==='board')loadOperatingBoard()};
   loadOperatingBoard();
 </script>
+<script>
+  const legacySliceBridge='http://127.0.0.1:4318';
+  const openFlowBeforeLegacySlice=openFlow;
+  function legacySliceOperation(){return `<section class="flow-operation"><div class="panel"><p class="eyebrow">旧版确定性流程</p><h2>切片数据核算</h2><p>沿用旧版切片核算 Skill：日系/泰系订单、千川计划、达人昵称库与人工确认门禁。</p><a class="link" href="http://127.0.0.1:3788/slice/knowledge" target="_blank">查看旧版切片核算知识与口径 →</a></div><div class="panel"><p class="eyebrow">一键入口</p><h2>检查并启动旧版切片核算</h2><p>仅检查旧版队列与附件输入是否齐全；不会改走最新版流程。</p><button class="primary" onclick="checkLegacySliceWorkflow()">开始切片数据核算</button><div class="order-result" id="legacySliceResult"></div></div></section>`}
+  async function checkLegacySliceWorkflow(){const result=$('#legacySliceResult');result.classList.add('show');result.textContent='正在检查旧版切片核算流程…';try{const response=await fetch(`${legacySliceBridge}/slice/legacy-status`);const payload=await response.json();if(!response.ok||!payload.ok)throw new Error(payload.error||'状态读取失败');const status=payload.result;const checks=status.checks.map(item=>`${item.status==='ready'?'✓':item.status==='manual'?'!':'×'} ${item.name}：${item.detail}`).join('\n');result.textContent=`旧版切片核算状态：${status.ready?'可进入旧版附件流程':'暂不能启动'}\n${checks}\n\n${status.note}`}catch(error){result.textContent=`无法检查旧版切片流程：${error.message}`}}
+  openFlow=function(index){const flow=flows[index];if(flow?.[0]!=='切片数据核算')return openFlowBeforeLegacySlice(index);$('#flowDetailTag').textContent=`W-${String(index+1).padStart(2,'0')} / ${flow[1]}`;$('#flowDetailTitle').textContent=flow[0];$('#flowDetailIntro').textContent='';$('#flowDetailBody').innerHTML=legacySliceOperation();show('flow-detail')}
+</script>
 </body></html>
