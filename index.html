@@ -11,6 +11,7 @@
     .intro,.action>p:not(.eyebrow),.card>p,.flow-operation p:not(.eyebrow),.flow-operation code,#flowDetailBody>.eyebrow{display:none}.hero{padding:30px 0 18px}.action{min-height:0}.action h2{margin:14px 0}.action label:first-of-type{margin-top:12px}.cards{margin-top:18px}.card{padding:16px}.card h3{margin:14px 0 0}.card small{display:none}.flow-operation{margin-top:14px}.flow-operation .panel{min-height:0}.flow-operation .panel:first-child{display:none}.flow-operation .panel:last-child{grid-column:1/-1}.flow-operation .primary{min-width:88px}.flow-operation .order-result{display:none}.flow-operation .order-result.show{display:block}
     .flow-operation .panel:first-child{display:block}.flow-operation .panel:last-child{grid-column:auto}
     .flow-operation .recharge-time{display:block!important;margin:14px 0 0!important;color:#7d8794!important;font-size:11px!important;line-height:1.7!important}
+    .board-core{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:24px}.board-core .panel{border-top:3px solid var(--blue)}.board-core .panel:nth-child(2){border-top-color:#8d75d1}.board-core .panel:nth-child(3){border-top-color:#f0a349}.board-core h2{margin:10px 0 3px;font-size:19px}.board-date{color:var(--muted);font-size:11px}.board-numbers{display:grid;gap:10px;margin-top:16px}.board-number{display:flex;justify-content:space-between;gap:8px;padding-top:10px;border-top:1px solid var(--line);color:#687482;font-size:12px}.board-number:first-child{border-top:0;padding-top:0}.board-number strong{color:var(--ink);font-size:15px;white-space:nowrap}.board-analysis{margin-top:14px}.board-analysis h2{margin:0 0 14px;font-size:18px}.board-analysis-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.board-analysis-item{padding:14px;border-radius:8px;background:#f7f9fc}.board-analysis-item h3{margin:0 0 8px;font-size:13px}.board-analysis-item p{margin:0;color:#596779;font-size:12px;line-height:1.75}.board-actions{margin:14px 0 0;padding:14px;border-left:3px solid #f0a349;border-radius:0 8px 8px 0;background:#fff8ec;color:#66543a;font-size:12px;line-height:1.75}@media(max-width:780px){.board-core,.board-analysis-grid{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -21,7 +22,7 @@
       <section id="today" class="view page"><p class="eyebrow">TODAY / 协作节点</p><h1>今日工作</h1><div class="cards" id="todayCards"></div></section>
       <section id="workflow" class="view page"><p class="eyebrow">WORKFLOW SYSTEM / 经营流程</p><h1>工作流系统</h1><p class="intro">选择一张卡片进入独立操作页。一级页面只用于定位工作流，不直接执行业务动作。</p><div class="cards" id="flows"></div></section>
       <section id="flow-detail" class="view page"><button class="link" onclick="show('workflow')">← 返回工作流列表</button><p class="eyebrow" id="flowDetailTag"></p><h1 id="flowDetailTitle"></h1><p class="intro" id="flowDetailIntro"></p><div id="flowDetailBody"></div></section>
-      <section id="board" class="view page"><p class="eyebrow">OPERATING BOARD / 已核验快照</p><h1>经营看板</h1><div class="panel"><div class="metrics"><div class="metric" id="productCardDashboard">商品卡<strong>等待更新</strong><small>完成商品卡核算后自动同步</small></div><div class="metric">切片<strong>待确认</strong><small>等待输入批次完成核验</small></div><div class="metric">整体<strong>待确认</strong><small>以人工确认后的数据为准</small></div></div></div></section>
+      <section id="board" class="view page"><p class="eyebrow">OPERATING BOARD / 已核验快照</p><h1>经营看板</h1><p class="intro">商品卡与切片分别展示最新核算；整体仅汇总两条线共同截至同一日期的数据。</p><div class="board-core" id="operatingBoardCards"><div class="panel">商品卡加载中…</div><div class="panel">切片加载中…</div><div class="panel">整体加载中…</div></div><section class="panel board-analysis" id="operatingBoardAnalysis"><h2>经营分析</h2><p class="intro">正在读取已核算数据。</p></section></section>
       <section id="pending" class="view page"><p class="eyebrow">PENDING / 需要人工确认</p><h1>待处理</h1><div class="cards" id="pendingCards"></div></section>
       <section id="changes" class="view page"><p class="eyebrow">CHANGELOG</p><h1>修改记录</h1><div class="panel">首页已调整为商家经营后台布局，保留工作台指令与员工指令两个核心入口。</div></section>
       <section id="collaboration" class="view page"><p class="eyebrow">COLLABORATION / 事项中心</p><h1>我的协作</h1><div class="cards" id="taskCards"></div></section>
@@ -63,26 +64,36 @@
   openFlow=function(index){const flow=flows[index];if(flow[0]!=='充值管理')return legacyOpenFlow(index);$('#flowDetailTag').textContent=`W-${String(index+1).padStart(2,'0')} / ${flow[1]}`;$('#flowDetailTitle').textContent=flow[0];$('#flowDetailIntro').textContent=flow[3];$('#flowDetailBody').innerHTML=rechargeSummary({});const handoff=handoffs['充值管理'];const record=document.createElement('p');record.className='eyebrow';record.textContent=`唯一对应交接：${handoff[0]}｜记录 ${handoff[1]}`;$('#flowDetailBody').prepend(record);show('flow-detail');loadRechargeSummary()}
 </script>
 <script>
-  const productCardDashboardBridge = 'http://127.0.0.1:4318';
-  async function loadProductCardDashboard(){
-    const card=document.querySelector('#productCardDashboard');
-    if(!card)return;
-    try{
-      const response=await fetch(`${productCardDashboardBridge}/dashboard/product-card`);
-      const payload=await response.json();
-      if(!response.ok||!payload.ok)throw new Error(payload.error||'尚未生成摘要');
-      const summary=payload.result.dashboard||{};
-      const month=summary.month_to_date||{},daily=summary.report_date_summary||{},focus=summary.focus||{};
-      card.textContent='商品卡';
-      const value=document.createElement('strong');value.textContent=`月净利 ¥${month.net_profit||'—'}`;
-      const detail=document.createElement('small');detail.textContent=`截至 ${summary.report_date||'—'}｜当日净利 ¥${daily.net_profit||'—'}｜重点：${focus.monthly_loss_store||'—'}`;
-      card.append(value,detail);
-    }catch(error){
-      card.innerHTML='商品卡<strong>等待更新</strong><small>完成商品卡核算后自动同步</small>';
-    }
+  const operatingBoardBridge = 'http://127.0.0.1:4318';
+  const boardMoney=value=>`¥${Number(value||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+  const boardPercent=value=>`${(Number(value||0)*100).toFixed(2)}%`;
+  function boardCard(title,data,extra){
+    const panel=document.createElement('article');panel.className='panel';
+    const heading=document.createElement('h2');heading.textContent=title;
+    const date=document.createElement('div');date.className='board-date';date.textContent=`${data.status||'已核算'}｜截至 ${data.report_date||'—'}${extra?'｜'+extra:''}`;
+    const numbers=document.createElement('div');numbers.className='board-numbers';
+    [['千川整体成交金额',data.deal_amount],['有效金额',data.effective_amount],['净利润',data.net_profit]].forEach(([label,value])=>{const row=document.createElement('div');row.className='board-number';const name=document.createElement('span');name.textContent=label;const amount=document.createElement('strong');amount.textContent=boardMoney(value);row.append(name,amount);numbers.append(row)});
+    panel.append(heading,date,numbers);return panel;
   }
-  const showWithProductCardDashboard=show;
-  show=function(id){showWithProductCardDashboard(id);if(id==='board')loadProductCardDashboard()};
-  loadProductCardDashboard();
+  function analysisItem(title,text){const item=document.createElement('article');item.className='board-analysis-item';const heading=document.createElement('h3');heading.textContent=title;const body=document.createElement('p');body.textContent=text;item.append(heading,body);return item}
+  function renderOperatingBoard(data){
+    const cards=document.querySelector('#operatingBoardCards'),analysis=document.querySelector('#operatingBoardAnalysis');
+    cards.replaceChildren(boardCard('商品卡',data.product,`净利率 ${boardPercent(data.product.net_margin)}`),boardCard('切片',data.slice,`净利率 ${boardPercent(data.slice.net_margin)}`),boardCard('整体汇总',data.overall,`净利率 ${boardPercent(data.overall.net_margin)}`));
+    analysis.replaceChildren();
+    const title=document.createElement('h2');title.textContent='经营分析';
+    const grid=document.createElement('div');grid.className='board-analysis-grid';
+    grid.append(analysisItem('商品卡经营',data.analysis.product),analysisItem('切片经营',data.analysis.slice),analysisItem('整体判断',data.analysis.overall));
+    const actions=document.createElement('div');actions.className='board-actions';
+    const productFocus=data.product.focus||{};const sliceRisk=(data.slice.high_return||[]).map(item=>`${item.name}（${boardPercent(item.return_rate)}）`).join('、')||'暂无';
+    actions.textContent=`优先事项：商品卡先复核 ${productFocus.monthly_loss_store||'亏损门店'} 的退款率、投流效率与履约成本；切片先处理高退货风险账号 ${sliceRisk}，并复核其计划归属与订单映射。整体汇总只使用共同截至 ${data.overall.report_date} 的两条线数据。`;
+    analysis.append(title,grid,actions);
+  }
+  async function loadOperatingBoard(){
+    try{const response=await fetch(`${operatingBoardBridge}/dashboard/operating`);const payload=await response.json();if(!response.ok||!payload.ok)throw new Error(payload.error||'尚未生成经营看板数据');renderOperatingBoard(payload.result)}
+    catch(error){const cards=document.querySelector('#operatingBoardCards'),analysis=document.querySelector('#operatingBoardAnalysis');cards.textContent='暂未读取到完整的商品卡与切片核算结果。';analysis.innerHTML='<h2>经营分析</h2>';const note=document.createElement('p');note.className='intro';note.textContent=`暂无法生成同日整体汇总：${error.message}`;analysis.append(note)}
+  }
+  const showWithOperatingBoard=show;
+  show=function(id){showWithOperatingBoard(id);if(id==='board')loadOperatingBoard()};
+  loadOperatingBoard();
 </script>
 </body></html>
