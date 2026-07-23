@@ -131,10 +131,12 @@
     analysis.append(title,summary,updated,notice);
   }
   async function loadOperatingBoard(){
-    const snapshotUrl=location.protocol==='file:'
-      ?'https://hongruzhao5-crypto.github.io/operating-workbench/public-board.json?v=product-20260722'
-      :'./public-board.json';
-    try{const response=await fetch(snapshotUrl,{cache:'no-store'});if(!response.ok)throw new Error('未找到已发布看板快照');const snapshot=await response.json();renderOperatingBoard(snapshot,snapshot.recharge)}
+    const snapshotUrls=location.protocol==='file:'
+      ?['http://127.0.0.1:4318/public-board','https://hongruzhao5-crypto.github.io/operating-workbench/public-board.json?v=product-20260722']
+      :['./public-board.json'];
+    let latestError;
+    for(const snapshotUrl of snapshotUrls){try{const response=await fetch(snapshotUrl,{cache:'no-store'});if(!response.ok)throw new Error('未找到已发布看板快照');const snapshot=await response.json();renderOperatingBoard(snapshot,snapshot.recharge);return}catch(error){latestError=error}}
+    try{throw latestError}
     catch(error){const cards=document.querySelector('#operatingBoardCards'),analysis=document.querySelector('#operatingBoardAnalysis');cards.textContent='暂未发布经营看板快照。';analysis.innerHTML='<h2>经营说明</h2>';const note=document.createElement('p');note.className='intro';note.textContent=error.message;analysis.append(note)}
   }
   const showWithOperatingBoard=show;
