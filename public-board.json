@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-22T06:46:10.828Z",
+  "generated_at": "2026-07-23T09:40:14+08:00",
   "scope": "公开查看版｜整体经营观察",
   "notice": "完整快照已公开展示。当前账户—计划—素材—达人—运营人关系仍在治理中：其中未确认的个人、主达人和运营人归因仅供核对，不得用于停投、责任或正式个人盈亏结论。",
   "product": {
@@ -69,26 +69,30 @@
     "net_margin": 0.022948002565664007
   },
   "recharge": {
-    "audit_timestamp": "2026-07-22T09:21:04+08:00",
+    "audit_timestamp": "2026-07-23T09:39:15+08:00",
+    "balance_refresh_timestamp": "2026-07-23T09:40:14+08:00",
     "account_count": 66,
-    "recharge_recommended_count": 1,
+    "recharge_recommended_count": 2,
     "sufficient_count": 27,
-    "recently_idle_count": 13,
+    "recently_idle_count": 11,
     "exception_count": 0,
-    "recommended":[{"name":"主账户-浩美贸易商行","balance":821.58,"daily_spend":1269.91,"coverage_days":0.65}],
+    "recommended":[
+      {"name":"主账户--宝得娜个人护理旗舰店","balance":4219.92,"daily_spend":4976.42,"coverage_days":0.85},
+      {"name":"刘秀厅-香港君姐-切片号-优蜜琳专用","balance":1198.35,"daily_spend":915.13,"coverage_days":1.31}
+    ],
     "sufficient":[
-      {"name":"切片-苑佳乐-蜜桃-樱肌本铺","balance":2524.96,"daily_spend":1609.37,"coverage_days":1.57},
-      {"name":"主账户--宝得娜个人护理旗舰店","balance":9416.77,"daily_spend":4140.1,"coverage_days":2.28},
-      {"name":"切片-苑佳乐-果哥-宝得娜个人护理旗舰店","balance":1065.2,"daily_spend":336.8,"coverage_days":3.16}
+      {"name":"切片-苑佳乐-蜜桃-樱肌本铺","balance":3664.31,"daily_spend":1397.86,"coverage_days":2.62},
+      {"name":"主账户--赫本希个人护理旗舰店","balance":17034.73,"daily_spend":5715.41,"coverage_days":2.98},
+      {"name":"主账户--花本姿美容旗舰店","balance":7533.61,"daily_spend":2481.91,"coverage_days":3.04}
     ],
     "review":[
-      {"name":"切片-苑佳乐-罗凤魁-泰丽进口贸易","balance":0.12,"daily_spend":0,"coverage_days":null},
-      {"name":"停用-主账户-海伦女神美容护肤店","balance":0,"daily_spend":0,"coverage_days":null},
-      {"name":"切片-苑佳乐-香港君姐-优蜜琳国际进口仓","balance":0,"daily_spend":0,"coverage_days":null},
-      {"name":"弃用刘秀厅-切片-花本姿-李多多","balance":0,"daily_spend":0,"coverage_days":null},
-      {"name":"主账户-帕卡玛泰宜本草企业店","balance":337.09,"daily_spend":0,"coverage_days":null}
+      {"name":"李树花-罗凤魁切片-泰丽","balance":1.21,"daily_spend":0,"coverage_days":null},
+      {"name":"李树花-微微一家切片-赫本希","balance":945.85,"daily_spend":0,"coverage_days":null},
+      {"name":"李树花-瑶彤妈切片-宝得娜","balance":129.07,"daily_spend":0,"coverage_days":null},
+      {"name":"刘秀厅-帕卡玛-海为切片号","balance":0,"daily_spend":0,"coverage_days":null},
+      {"name":"刘秀厅-外部切片-宝得娜","balance":0,"daily_spend":0,"coverage_days":null}
     ],
-    "analysis":{"warning":"当前有 1 户账户建议充值。","regular":"余额充足账户 27 户。","review":"近期无消耗待复核 13 户，数据异常 0 项。"}
+    "analysis":{"warning":"当前有 2 户账户建议充值。","regular":"余额充足账户 27 户。","review":"近期无消耗待复核 11 户，数据异常 0 项。"}
   },
   "analysis": {
     "product":"商品卡覆盖 14 个账户，投流占有效金额 56.49%，净利率 6.48%。",
