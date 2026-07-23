@@ -123,13 +123,16 @@
     analysis.replaceChildren();
     const title=document.createElement('h2');title.textContent='公开查看说明';
     const notice=document.createElement('div');notice.className='board-actions';notice.textContent=data.notice||'本页面仅用于整体经营观察。';
-    const summary=document.createElement('p');summary.className='board-detail-note';summary.textContent=`截至 ${data.overall.report_date||'—'}：商品卡净利润 ${boardMoney(data.product.net_profit)}，切片净利润 ${boardMoney(data.slice.net_profit)}，同日整体净利润 ${boardMoney(data.overall.net_profit)}。切片投流占有效金额 ${boardPercent(data.slice.spend_rate)}，跨系统成交差额率 ${boardPercent(data.slice.reconciliation_gap_rate)}；充值审计覆盖 ${data.recharge?.account_count||0} 户账户。`;
+    const aligned=data.product?.report_date===data.slice?.report_date&&data.slice?.report_date===data.overall?.report_date;
+    const summary=document.createElement('p');summary.className='board-detail-note';summary.textContent=aligned
+      ?`截至 ${data.overall.report_date||'—'}：商品卡净利润 ${boardMoney(data.product.net_profit)}，切片净利润 ${boardMoney(data.slice.net_profit)}，同日整体净利润 ${boardMoney(data.overall.net_profit)}。切片投流占有效金额 ${boardPercent(data.slice.spend_rate)}，跨系统成交差额率 ${boardPercent(data.slice.reconciliation_gap_rate)}；充值审计覆盖 ${data.recharge?.account_count||0} 户账户。`
+      :`商品卡已核验至 ${data.product?.report_date||'—'}，净利润 ${boardMoney(data.product?.net_profit)}；切片与整体汇总仅截至 ${data.overall?.report_date||'—'}，整体净利润 ${boardMoney(data.overall?.net_profit)}。待同日切片核验后才会生成新的整体汇总；当前不跨日期合并。`;
     const updated=document.createElement('p');updated.className='board-detail-note';updated.textContent=`快照更新时间：${data.generated_at?new Date(data.generated_at).toLocaleString('zh-CN',{hour12:false}):'—'}。`;
     analysis.append(title,summary,updated,notice);
   }
   async function loadOperatingBoard(){
     const snapshotUrl=location.protocol==='file:'
-      ?'https://hongruzhao5-crypto.github.io/operating-workbench/public-board.json?v=8a02d27'
+      ?'https://hongruzhao5-crypto.github.io/operating-workbench/public-board.json?v=product-20260722'
       :'./public-board.json';
     try{const response=await fetch(snapshotUrl,{cache:'no-store'});if(!response.ok)throw new Error('未找到已发布看板快照');const snapshot=await response.json();renderOperatingBoard(snapshot,snapshot.recharge)}
     catch(error){const cards=document.querySelector('#operatingBoardCards'),analysis=document.querySelector('#operatingBoardAnalysis');cards.textContent='暂未发布经营看板快照。';analysis.innerHTML='<h2>经营说明</h2>';const note=document.createElement('p');note.className='intro';note.textContent=error.message;analysis.append(note)}
